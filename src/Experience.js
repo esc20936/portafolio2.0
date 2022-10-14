@@ -99,7 +99,40 @@ export default class Experience {
         this.cursor = {}
         this.cursor.x = 0
         this.cursor.y = 0
-        
+
+        this.scrollPercent = 0
+        this.animationScripts = []
+
+
+        this.animationScripts.push({
+            start: 0,
+            end: 99,
+            func: () => {
+                
+                if(sectionMesh){
+
+                    sectionMesh.position.x = this.lerp(1,-2,this.scalePercent(0,100))
+                    sectionMesh.rotation.y = this.lerp(-0.25,0.8,this.scalePercent(0,100))
+                }
+                    // console.log(this.sectionMesh.position)
+                
+            }
+        })
+
+
+        document.body.onscroll = () => {
+            //calculate the current scroll progress as a percentage
+            this.scrollPercent =
+                ((document.documentElement.scrollTop || document.body.scrollTop) /
+                    ((document.documentElement.scrollHeight ||
+                        document.body.scrollHeight) -
+                        document.documentElement.clientHeight)) *
+                100
+            ;
+            // console.log(this.scrollPercent);
+        }
+
+
         window.addEventListener('mousemove', (event) => {
             this.mouseMove(event)
             
@@ -128,10 +161,8 @@ export default class Experience {
             this.cameraGroup.position.x += (parallaxX - this.cameraGroup.position.x) * 5 * deltaTime
             this.cameraGroup.position.y += (parallaxY - this.cameraGroup.position.y) * 5 * deltaTime
 
-            if(sectionMesh){
-                // sectionMesh.rotation.x += deltaTime * 0.1
-                // sectionMesh.rotation.y = Math.sin(elapsedTime * 0.5) * 0.5
-            }
+            this.playScrollAnimation()
+
             this.renderer.render(this.scene, this.camera);
             window.requestAnimationFrame(tick);
         };
@@ -171,7 +202,7 @@ export default class Experience {
         for(let i = 0; i < particlesCount; i++) {
             positions[i*3+0] = (Math.random()-0.5) * 10
             positions[i*3+1] = this.objectsDistance *0.5  - Math.random() * this.objectsDistance * 3
-            positions[i*3+2] = (Math.random()-0.5 ) * 10
+            positions[i*3+2] = (Math.random()-0.7 ) * 10
         }
 
         const particlesGeometry = new THREE.BufferGeometry()
@@ -184,9 +215,25 @@ export default class Experience {
 
     }
 
-    
+    lerp(x,y,a) {
+        return (1 - a) * x + a * y
+    }
+
+    scalePercent(start, end) {
+        return (this.scrollPercent - start) / (end - start)
+    }
 
 
+    playScrollAnimation() {
+        // console.log(this.animationScripts);
+        this.animationScripts.forEach((a) => {
+            // console.log(a);
+            if (this.scrollPercent >= a.start && this.scrollPercent < a.end) {
+                // console.log('play');
+                a.func()
+            }
+        })
+    }
 
     
 
