@@ -19,7 +19,7 @@ export default function About() {
                                         <li className='aboutBody'>JavaScript</li>
                                         <li className='aboutBody'>React / React Native</li>
                                         <li className='aboutBody'>Node.js</li>
-                                        <li className='aboutBody'>Express</li>
+                                        <li className='aboutBody'>NoSQL databases</li>
                                         <li className='aboutBody'>SQL</li>
                                     </ul>
                                 </div>
@@ -27,7 +27,7 @@ export default function About() {
                                     <ul>
                                         <li className='aboutBody'>Three JS</li>
                                         <li className='aboutBody'>WebPack/Vite</li>
-                                        <li className='aboutBody'>GIT</li>
+                                        <li className='aboutBody'>GIT/Github</li>
                                         <li className='aboutBody'>Python</li>
                                         <li className='aboutBody'>Java</li>
                                     </ul>

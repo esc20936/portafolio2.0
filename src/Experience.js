@@ -9,15 +9,15 @@ export default class Experience {
         // console.log(canvas);
         this.canvas = canvas;
         this.scene = new THREE.Scene();
-        const gui = new dat.GUI()
+        // const gui = new dat.GUI()
 
         const parameters = {
             materialColor: '#ffeded'
         }
 
-        gui.addColor(parameters, 'materialColor').onChange(() => {
-                material.color.set(parameters.materialColor)
-            })
+        // gui.addColor(parameters, 'materialColor').onChange(() => {
+        //         material.color.set(parameters.materialColor)
+        //     })
 
             this.textureLoader = new THREE.TextureLoader();
             let gradientTexture = this.textureLoader.load('/gradients/3.jpg');
@@ -106,13 +106,28 @@ export default class Experience {
 
         this.animationScripts.push({
             start: 0,
-            end: 99,
+            end: 35,
             func: () => {
                 
                 if(sectionMesh){
 
-                    sectionMesh.position.x = this.lerp(1,-2,this.scalePercent(0,100))
-                    sectionMesh.rotation.y = this.lerp(-0.25,0.8,this.scalePercent(0,100))
+                    sectionMesh.position.x = this.lerp(1,-2,this.scalePercent(0,35))
+                    sectionMesh.rotation.y = this.lerp(-0.25,0.8,this.scalePercent(0,35))
+                }
+                    // console.log(this.sectionMesh.position)
+                
+            }
+        })
+
+        this.animationScripts.push({
+            start: 35,
+            end: 70,
+            func: () => {
+                
+                if(sectionMesh){
+
+                    sectionMesh.position.x = this.lerp(-2,0,this.scalePercent(35,70))
+                    sectionMesh.rotation.y = this.lerp(0.8,6.5,this.scalePercent(35,70))
                 }
                     // console.log(this.sectionMesh.position)
                 
@@ -129,7 +144,7 @@ export default class Experience {
                         document.documentElement.clientHeight)) *
                 100
             ;
-            // console.log(this.scrollPercent);
+            console.log(this.scrollPercent);
         }
 
 
@@ -201,14 +216,14 @@ export default class Experience {
         const positions = new Float32Array(particlesCount * 3)
         for(let i = 0; i < particlesCount; i++) {
             positions[i*3+0] = (Math.random()-0.5) * 10
-            positions[i*3+1] = this.objectsDistance *0.5  - Math.random() * this.objectsDistance * 3
+            positions[i*3+1] = (Math.random()-0.5) * 10
             positions[i*3+2] = (Math.random()-0.7 ) * 10
         }
 
         const particlesGeometry = new THREE.BufferGeometry()
         particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
 
-        const particlesMaterial = new THREE.PointsMaterial({ size: 0.03, sizeAttenuation: true, color: Tcolor })
+        const particlesMaterial = new THREE.PointsMaterial({ size: 0.02, sizeAttenuation: true, color: Tcolor })
         const particles = new THREE.Points(particlesGeometry, particlesMaterial)
         this.scene.add(particles)
 
